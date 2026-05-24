@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NRL</title>
+<!-- GSAP -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="styles/sol_sp.css">
+<link rel="stylesheet" href="styles/marquee.css">
+<link rel="stylesheet" href="styles/s.css">
+<link rel="stylesheet" href="styles/add_info.css">
+<script src="htext.js"></script>
+</head>
+
+<body>
+    <style>
+
+        /* ---------- VARIABLES & BASE ---------- */    
+        :root {
+            --cc-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+             Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text: #ffffff;
+            --text2: #525151;
+            --accent: #7fb0fab6;
+            --grid-column: 8;
+            --contrainer-padding: 6rem;
+        }
+
+        /*---------- RESET ---------- */
+        *{
+            
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--cc-font-family);
+            color: var(--text2);
+        }
+
+        /* ---------- NAVBAR ---------- */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 14px 24px;
+            border-radius: 18px;
+
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* ---------- DESKTOP LINKS ---------- */
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0%;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            color: var(--accent);
+            width: 100%;
+        }
+
+        /* ---------- HAMBURGER ---------- */
+        .menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .menu-btn span {
+            width: 28px;
+            height: 3px;
+            background: var(--text);
+            border-radius: 2px;
+        }
+
+        /* ---------- FULLSCREEN MENU ---------- */
+        .fullscreen-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .fullscreen-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .fullscreen-menu li {
+            font-size: 2.2rem;
+            margin: 20px 0;
+        }
+
+        .fullscreen-menu a {
+            text-decoration: none;
+            color: var(--text);
+            transition: color 0.3s ease;
+        }
+
+        .fullscreen-menu a:hover {
+            color: var(--text);
+        }
+
+        /* ---------- MOBILE ---------- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-btn {
+                display: flex;
+            }
+            .hero_text{
+                font-size: 3.5rem;
+                padding-left: 1rem;
+            }
+            .par_text{
+                top: 800px;
+            }
+
+        }
+        /* ---------- HERO ---------- */
+        .hero{
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: url("img/mufid-majnun-h1kOzS2sGAk-unsplash (1).jpg") center/cover no-repeat;
+            background-color: rgba(63, 63, 63, 0.5);
+            background-blend-mode: multiply;
+            text-align: left;
+            color: #fff;
+            height: 99dvh;
+        }
+        
+        .par_text{ 
+            right: 0;position: absolute;top: 500px;
+            text-align: start; 
+            padding: 1.7rem; 
+            margin-right: 1rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            max-width: 26rem;
+
+        }
+        .split {
+            opacity: 0;
+            text-align: start;
+            font-size: clamp(4rem, 5rem, 3vw);
+            letter-spacing: 0.05rem;
+            will-change: transform;
+            color: #ffffff;}
+
+        .split * {
+            will-change: transform;
+        }
+
+        .first-con_grid{
+            display: grid;
+
+        }
+        .spacer {
+            height: 40vh
+        }
+
+
+        .scrl-reveal > * {
+            color: #8e8e8f75;
+            background-clip: text;
+            background-repeat: no-repeat;
+            background-size: 0% 100%;
+            background-image: #1c6ce6;
+            animation-timeline: view();
+        }
+        @keyframes scrl-reveal {
+            to{
+                background-size: 100% 100%;
+            }
+        }
+
+        .hme_mid_pge{
+            display: grid;
+            grid-template-columns: repeat(var(--grid-column), 1fr);
+            height: 100%;
+        }
+    </style>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="#" style="text-decoration: none; color: #fff;">NOTCH</a>
+        </div>
+
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Services</a>
+            <a href="#">Projects</a>
+            <a href="#">Team</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <!-- FULLSCREEN MENU -->
+    <div class="fullscreen-menu" id="fsMenu">
+        <ul>
+            
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- hero section -->
+    <header>
+        <div class="hero" >
+            <div class="hero_text">
+                <div class="container">
+                    <h1 class="split">
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >Beyond</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >expectation</div>
+                    </h1>
+                </div>
+                <div class="container" style="display: block; text-align: start; position: relative;">
+                    
+                    <h1 class="split">
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >in</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >always</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >possible</div>
+                    </h1>
+                </div>
+                
+            </div>
+            <div class="par_text">
+                <p>
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;">
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >we</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >develop</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >a</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >novel</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >shop</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >to</div>
+                    </div>
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;">
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >transport</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >freight</div>
+                        <span style="color: hsla(216, 100%, 56%, 0.933);;">
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >more</div>
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >flexibly</div>
+                        </span>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >,</div>
+                        
+                    </div>
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;">
+                        <span style="color: hsla(216, 100%, 56%, 0.933);;">
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >with</div>
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >lower</div>
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >emissions</div>
+                        </span>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >and</div>
+                        <span style="color: hsla(216, 100%, 56%, 0.933);;">
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >at</div>
+                        </span>    
+                    </div>
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;">
+                        <span style="color: hsla(216, 100%, 56%, 0.933);;">
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >lower</div>
+                            <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >cost</div>
+
+                        </span>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >than</div>
+                        <div style="position: relative; display: inline-block; translate: none; scale: none; opacity: 1; visibility: inherit; transform: translate(0px, 0px);" >today</div>
+                    </div>
+                </p></div>
+        </div>
+    </header>
+    <!-- the first section -->
+    <section class="scroll-reveal">
+        <h1 class="section-title"><span>Lorem ipsum dolor sit amet</span></h1>
+        <p>
+            <span>
+                Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Quos incidunt neque enim eaque rerum, magni mo
+                estias natus exercitationem sapiente aspernatur ndis
+            </span>
+            
+        </p>
+    </section>
+    <section class="home-into">
+        <div class="containerr grid">
+            <div class="home-intro_label txt txt-20 txt-med">company</div>
+            <h2 class="h3 home-intro_title heading ">
+                <div class="t-lines" style="display: block; text-align: start; position: relative;">Welcome to</div>
+                <div class="t-lines" style="display: block; text-align: start; position: relative;">Notch,Where  </div>
+                <div class="t-lines" style="display: block; text-align: start; position: relative;">Innovation Meets</div>
+                <div class="t-lines" style="display: block; text-align: start; position: relative;">Excellence </div>
+                <div class="t-lines" style="display: block; text-align: start; position: relative;">in engineering</div>
+            </h2> 
+            <div class="home-intro_img ig-wrp" style="--aspect: 165%; translate: none; rotate: none; scale: none; clip-path: inset(0%); transform: translate(0%, -5.6787%) translate3d(0, 0, 0);">
+                <img src="img/simone.jpg" alt="welcome to notch" class="img-ab img-fill" loading="lazy" width="300" height="450" style="z-index: 2;  background-color: #1c6ce6; top:auto; opacity: 1; visibility: inherit; height: 120%; bottom: -18.5768%;">
+                <p class="home-into_richtext-p txt txt-18">
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;color: #535353;">
+                        adipisicing elit. Quis expedita assumenda dicta.
+                        numquam omnis molestias magnam laborum ad! Odioio!
+                    </div>
+                </p>
+            </div>
+            <div class="home-intro_richtext" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0.8577); tranlate3d(0, 0, 0);">
+                <div class="home-intro_richtext-img img-wrap" style="--aspect: 16/9; clip-path: inset(0%);">
+                    <img src="img/abdul-zre.jpg" alt="Cargokite's team" class="img-abs img-fill" loading="lazy" width="350" height="200"
+                    style="top: auto; opacity: 1; visibility: inherit; height: 120%; bottom: -9.4737%;">
+                </div>
+                <h3 class="home-intro_richtext-h3 txt txt-24 txt-med" style="margin-top: 2rem;">
+                    <div class="g-lines" style="display: block; text-align: start; position: relative;"> We are a company Located in the Heart</div>
+                    <div class="g-lines" style="display: block; text-align: start; position: relative;"> of Zambia, At the cutting Egde in civil</div>
+                    <div class="g-lines" style="display: block; text-align: start; position: relative;"> Engineering,Farming and Industries development. </div>
+                </h3>
+                <p class="home-into_richtext-p txt txt-18">
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;">
+                        Lorem ipsum dolor sit amet consectetur
+                        Lorem ipsum dolor sit amet consectetur adi
+                        pisicing elit. Similique atque maxime,niet. 
+                        Quz dolorem saepe qui perspiciatis neque, 
+                    </div>
+                </p>
+                <p class="home-into_richtext-p txt txt-18">
+                    <div class="p-lines" style="display: block; text-align: start; position: relative;">
+                        adipisicing elit. Quis expedita assumenda dicta.
+                        numquam omnis molestias magnam laborum ad! Odioio!
+                    </div>
+                </p>
+            </div>
+            
+        </div>
+    </section>
+    <!-- the second section -->
+    <section class="solutions_sec">
+        <div class="containerrr grid">
+            <div class="home-intro_label txt txt-20 txt-med">Solutions</div>
+
+            <div class="gridd sol-prob_pt">
+                <div class="sol-main_item" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0); tranlate3d(0, 0, 0);">
+                    <div class="Ig_item" style="--aspect: 73%; clip-path:inset(0%)">
+                        <img src="" alt="notch solutions" class="img-abs img-fill" loading="lazy" width="300" height="550" style="z-index: 2;  background-color: #1c6ce6; top:auto; opacity: 1; visibility: inherit; height: 120%; bottom: -18.5768%;">
+                    </div>
+                    <h3 class=" h6 sol-main_item-h3">
+                        <div class=" g-lines" style="display: block; text-align: start; position: relative;">Lorem ipsum, dolor sit ametct.</div>
+                        <div class=" g-lines" style="display: block; text-align: start; position: relative;"> Ratione, voluptatibus</div>
+                    </h3>
+                    <p class="sol-main_item-p txt txt-16">
+                        <div class="p-lines" style="display: block; text-align: start; position: relative; font-weight: 400;">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                            ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!
+                        </div>
+                    </p>
+                </div>
+                <div class="sol-main_item" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0); tranlate3d(0, 0, 0);">
+                    <div class="Ig_item" style="--aspect: 100%; clip-path:inset(0%)">
+                        <img src="" alt="notch solutions" class="img-abs img-fill" loading="lazy" width="300" height="550" style="z-index: 2;  background-color: #1c6ce6; top:auto; opacity: 1; visibility: inherit; height: 120%; bottom: -16.5768%;">
+                    </div>
+                    <h3 class="sol-main_item-h3">
+                        <div class="g-lines" style="display: block; text-align: start; position: relative;">Lorem ipsum, dolor sit ametct.</div>
+                        <div class="g-lines" style="display: block; text-align: start; position: relative;"> Ratione, voluptatibus</div>
+                    </h3>
+                    <p class="sol-main_item-p txt txt-16">
+                        <div class="p-lines" style="display: block; text-align: start; position: relative; font-weight: 400;">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                            ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!
+                        </div>
+                    </p>
+                </div>
+                <div class="sol-main_item" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0); tranlate3d(0, 0, 0);">
+                    <div class="Ig_item" style="--aspect: 100%; clip-path:inset(0%)">
+                        <img src="" alt="notch solutions" class="img-abs img-fill" loading="lazy" width="300" height="550" style="z-index: 2;  background-color: #1c6ce6; top:auto; opacity: 1; visibility: inherit; height: 120%; bottom: -16.5768%;">
+                    </div>
+                    <h3 class="sol-main_item-h3">
+                        <div class="g-lines" style="display: block; text-align: start; position: relative;">Lorem ipsum, dolor sit ametct.</div>
+                        <div class="g-lines" style="display: block; text-align: start; position: relative;"> Ratione, voluptatibus</div>
+                    </h3>
+                    <p class="sol-main_item-p txt txt-16">
+                        <div class="p-lines" style="display: block; text-align: start; position: relative; font-weight: 400;">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                            ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!
+                        </div>
+                    </p>
+                </div>
+                <div class="sol-main_item" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0); tranlate3d(0, 0, 0);">
+                    <div class="Ig_item" style="--aspect: 100%; clip-path:inset(0%)">
+                        <img src="" alt="notch solutions" class="img-abs img-fill" loading="lazy" width="300" height="550" style="z-index: 2;  background-color: #1c6ce6; top:auto; opacity: 1; visibility: inherit; height: 120%; bottom: -16.5768%;">
+                    </div>
+                    <h3 class="sol-main_item-h3">
+                        <div class="g-lines" style="display: block; text-align: start; position: relative;">Lorem ipsum, dolor sit ametct.</div>
+                        <div class="g-lines" style="display: block; text-align: start; position: relative;"> Ratione, voluptatibus</div>
+                    </h3>
+                    <p class="sol-main_item-p txt txt-16">
+                        <div class="p-lines" style="display: block; text-align: start; position: relative; font-weight: 400;">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                            ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!
+                        </div>
+                    </p>
+                </div>
+            </div>
+            <h2 class="h3 sol-text ">
+                <div class="g-lines" style="display: block; text-align: start; position: relative;"> </div>
+                <div class="g-lines" style="display: block; text-align: start; position: relative;"> </div>
+            </h2>
+        </div>
+    </section>
+    
+    <!-- The marquee or infinite scroller panel section -->
+    <section id="scroll" class="scroll">
+        <div class="is_header">
+            <div class="home-intro_label txt txt-20 txt-med">Clients & Partners</div>
+            <h2 class="marq_title  ">
+                <div class="m-lines" style="display: block; text-align: center; position: relative ; color: hsl(0, 0%, 16%);">A List of Our</div>
+                <div class="m-lines" style="display: block; text-align: center; position: relative; color: hsl(0, 0%, 16%);">Clients & Collaborators</div>
+            </h2> 
+        </div>
+        <!-- ===== TEXT SCROLLER ===== -->
+        <div class="scroller" data-speed="30s">
+            <div class="scroller_inner">
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Partner logo</div>
+            </div>
+        </div>
+    </section>
+    <section class="add_sec">
+        <div class="grid_sec">
+            <div class="feature">
+                <span class="home-intro_label txt txt-20 txt-med" style="color: #fff;">Technology</span>
+                <h1>
+                    Our new ship class is the cheapest way to
+                    transport freight, with lower emissions and
+                    at lower cost than today
+                </h1>
+            </div>
+            <div class="card_container-gd">
+                <div class="card">
+                    <h3 class="header_card">
+                        Up to 100% of propulsion power from clean wind energy.
+                    </h3>
+                </div>
+                <div class="card">
+                    <h3 class="header_card">
+                        Up to 70% reduction in fuel consumption.
+                    </h3>
+                </div>
+                <div class="card">
+                    <h3 class="header_card">
+                        320 containers capacity.
+                    </h3>
+                </div>
+                <div class="card">
+                    <h3 class="header_card">
+                        Hybrid energy systems onboard.
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class ="sec_faq">
+        <div class="contrainerr grid">
+            <div class="home-intro_label txt txt-20 txt-med" style="color: #fff;">FAQ</div>
+            <h2 class="h3 faq_title">
+                <div class="g-lines" style="display: block; text-align: start; position: relative;">Frequently Asked</div>
+                <div class="g-lines" style="display: block; text-align: start; position: relative;">Questions</div>
+            </h2>
+            <div class="faq_grid">
+                <div class="faq_item">
+                    <h3>What is Notch?</h3>
+                    <p style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+                </div>
+                <div class="faq_item">
+                    <h3>What services do you offer?</h3>
+                    <p style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+                </div>
+                <div class="faq_item">
+                    <h3>How can I contact you?</h3>
+                    <p style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+                </div>
+                <div class="faq_item">
+                    <h3>Where are you located?</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
+                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The footer section -->
+    <section class="footer">
+        <div class="main_footer-fl"></div>
+    </section>
+ 
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const spans = menuBtn.querySelectorAll("span");
+        const fsMenu = document.getElementById("fsMenu");
+        const fsLinks = fsMenu.querySelectorAll("li");
+
+        let open = false;
+
+        /* FULLSCREEN MENU TIMELINE */
+        const menuTL = gsap.timeline({ paused: true });
+
+        menuTL
+            .to(fsMenu, {
+                opacity: 1,
+                pointerEvents: "auto",
+                duration: 0.25
+            })
+            .from(fsLinks, {
+                y: 40,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.5,
+                ease: "power3.out"
+            }, "-=0.1");
+
+        /* HAMBURGER → X */
+        const iconTL = gsap.timeline({ paused: true });
+
+        iconTL
+            .to(spans[0], { y: -10, rotation: -45, duration: 0.25 })
+            .to(spans[1], { y: 8, rotation: -45, duration: 0.25 } )
+            .to(spans[2], { y: 9, rotation: 45, duration: 0.25 }, 0);
+
+        /* TOGGLE */
+        menuBtn.addEventListener("click", () => {
+            open = !open;
+            open ? menuTL.play() : menuTL.reverse();
+            open ? iconTL.play() : iconTL.reverse();
+            document.body.style.overflow = open ? "hidden" : "";
+        });
+
+        /* CLOSE ON LINK CLICK */
+        fsLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                menuTL.reverse();
+                iconTL.reverse();
+                open = false;
+                document.body.style.overflow = "";
+            });
+        });
+    </script>
+    <script>
+        
+        gsap.registerPlugin(SplitText);
+        
+        console.clear();
+        
+        document.fonts.ready.then(() => {
+            gsap.set(".split", { opacity: 1 });
+            
+            let split;
+            
+            SplitText.create(".split", {
+                type: "words,lines",
+                linesClass: "line",
+                autoSplit: true,
+                mask: "lines",
+                
+                onSplit: (self) => {
+                    split = gsap.from(self.lines, {
+                        duration: 0.6,
+                        yPercent: 100,
+                        opacity: 0,
+                        stagger: 0.1,
+                        ease: "expo.out",
+                    });
+                    return split;
+                }
+            });
+            document.querySelector("button").addEventListener("click", (e) => {
+                split.timeScale(0.2).play(0);
+            });
+        });
+    </script>
+    <script src="js/scrollers/inifinite.js"></script>
+
+
+</body>
+</html>

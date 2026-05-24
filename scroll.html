@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Infinite Scrollers</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:hsl(197, 57%, 93%);
+  font-family:sans-serif;
+}
+
+/* ===== SCROLLER BASE ===== */
+.scroller{
+  overflow:hidden;
+  mask: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  margin: 3rem auto;
+  max-width: 1000px;
+}
+
+.scroller_inner{
+  display:flex;
+  gap:1rem;
+  width:max-content;
+  animation: scroll var(--speed, 25s) linear infinite;
+}
+
+.scroller[data-direction="right"] .scroller_inner{
+  animation-direction: reverse;
+}
+
+@keyframes scroll{
+  to{
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== TEXT TAGS ===== */
+.tag{
+  padding:1rem 2.5rem;
+  border-radius:5rem;
+  /*border:4px solid hsl(236,94%,52%);*/
+  white-space:nowrap;
+  background:white;
+  font-weight:600;
+}
+
+/* ===== IMAGES ===== */
+.image-item img{
+  height:120px;
+  border-radius:1rem;
+  object-fit:cover;
+}
+
+/* ===== LOGOS ===== */
+.logo-item img{
+  height:70px;
+  filter:grayscale(1);
+  opacity:.8;
+  transition:.3s;
+}
+.logo-item img:hover{
+  filter:none;
+  opacity:1;
+}
+</style>
+</head>
+<body>
+<section id="scroll" class="scroll">
+  <!-- ===== TEXT SCROLLER ===== -->
+  <div class="scroller" data-speed="30s">
+    <div class="scroller_inner">
+      <div class="tag">HTML</div>
+      <div class="tag">CSS</div>
+      <div class="tag">JavaScript</div>
+      <div class="tag">Python</div>
+      <div class="tag">Java</div>
+      <div class="tag">PHP</div>
+      <div class="tag">UI/UX</div>
+    </div>
+  </div>
+
+  <!-- ===== IMAGE SCROLLER ===== -->
+  <div class="scroller" data-speed="40s" data-direction="right">
+    <div class="scroller_inner">
+      <div class="image-item"><img src="https://picsum.photos/300/200?1"></div>
+      <div class="image-item"><img src="https://picsum.photos/300/200?2"></div>
+      <div class="image-item"><img src="https://picsum.photos/300/200?3"></div>
+      <div class="image-item"><img src="https://picsum.photos/300/200?4"></div>
+      <div class="image-item"><img src="https://picsum.photos/300/200?5"></div>
+
+    </div>
+  </div>
+
+  <!-- ===== LOGO SCROLLER ===== -->
+  <div class="scroller" data-speed="25s">
+    <div class="scroller_inner">
+      <div class="logo-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
+      </div>
+      <div class="logo-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"></div>
+      <div class="logo-item"><img
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"></div>
+      <div class="logo-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
+      </div>
+      <div class="logo-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
+      </div>
+      <div class="logo-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"></div>
+      <div class="logo-item"><img
+          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"></div>
+      <div class="logo-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+const scrollers = document.querySelectorAll(".scroller");
+
+scrollers.forEach(scroller=>{
+  const inner = scroller.querySelector(".scroller_inner");
+  const speed = scroller.dataset.speed || "25s";
+  inner.style.setProperty("--speed", speed);
+
+  // duplicate content for seamless loop
+  [...inner.children].forEach(item=>{
+    const clone = item.cloneNode(true);
+    clone.setAttribute("aria-hidden","true");
+    inner.appendChild(clone);
+  });
+});
+</script>
+
+</body>
+</html>
