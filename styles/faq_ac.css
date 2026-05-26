@@ -1,0 +1,39 @@
+.faq-container {
+    max-width: 800px;
+    margin: 50px auto 0;
+    padding: 20px;
+    flex: 1;
+}
+.accordion-button {
+    background-color: #ffffff;
+    color: #333;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+.accordion-button:not(.collapsed) {
+    background-color: #23228a;
+    color: white;
+}
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.2rem rgba(35, 34, 138, 0.25);
+}
+.accordion-body {
+    background-color: #f8f9fa;
+    border-left: 4px solid #23228a;
+    animation: slideDown 0.3s ease-out;
+}
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.faq-icon {
+    margin-right: 10px;
+    color: #edbe00;
+}
