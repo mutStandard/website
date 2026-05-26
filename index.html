@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="styles/marquee.css">
 <link rel="stylesheet" href="styles/s.css">
 <link rel="stylesheet" href="styles/add_info.css">
-<link rel="stylesheet" href="styles/faq_ac.css.css">
+<link rel="stylesheet" href="styles/faq_ac.css">
 <script src="htext.js"></script>
 </head>
 
@@ -529,16 +529,88 @@
             </div>
         </div>
     </section>
-    <section class ="sec_faq" style="height:90dvh;">
-        <div class="contrainerr grid">
-            <div class="home-intro_label txt txt-20 txt-med" style="color: #fff;">FAQ</div>
-            <h2 class="h3 faq_title">
-                <div class="g-lines" style="display: block; text-align: start; position: relative;">Frequently Asked</div>
-                <div class="g-lines" style="display: block; text-align: start; position: relative;">Questions</div>
-            </h2>
+    <section id="faq-container">
+        <div class="faq-grid">
+            <div class="faq_header">
+                <h2>
+                    <div class="f-lines"
+                        style="display: block; text-align: start; position: relative ; color: hsl(0, 0%, 16%);">Quick
+                        answers to</div>
+                    <div class="f-lines"
+                        style="display: block; text-align: start; position: relative; color: hsl(0, 0%, 16%);">questions you
+                        <br>may have</div>
+                </h2>
+                <p class="faq_txt">
+                <div class="p-lines"
+                    style="display: block; text-align: start; position: relative ; color: hsl(0, 0%, 16%);"> Can't find what
+                    you're looking for?</div>
+                <div class="p-lines" style="display: block; text-align: start; position: relative; color: hsl(0, 0%, 16%);">
+                    Contact us here:</div>
+                </p>
+                <a class="txt-a" href="mailto:info@.com">
+                    info@cargokite.com
+                </a>
     
+            </div>
+    
+            <div class="faq_body-sec">
+                <div class="faq-item active">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
+                </div>
+    
+                <div class="faq-item ">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
 
     <!-- The footer section -->
     <section class="footer">
@@ -628,6 +700,21 @@
                 split.timeScale(0.2).play(0);
             });
         });
+    </script>
+    <script>
+        const faqItems = document.querySelectorAll(".faq-item");
+        faqItems.forEach(item => {
+            const button = item.querySelector(".faq-question");
+             button.addEventListener("click", () => {
+                 faqItems.forEach(otherItem => {
+                    if(otherItem !== item){
+                        otherItem.classList.remove("active");
+                    }
+                });
+                
+                item.classList.toggle("active");
+            });
+         });
     </script>
     <script src="js/scrollers/inifinite.js"></script>
 
