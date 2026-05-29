@@ -8,10 +8,12 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
 <link rel="stylesheet" href="styles/sol_sp.css">
 <link rel="stylesheet" href="styles/marquee.css">
 <link rel="stylesheet" href="styles/s.css">
 <link rel="stylesheet" href="styles/add_info.css">
+<link rel="stylesheet" href="styles/faq_ac.css">
 <script src="htext.js"></script>
 </head>
 
@@ -58,7 +60,7 @@
             justify-content: space-between;
 
             padding: 14px 24px;
-            border-radius: 18px;
+            border-radius: 3px;
 
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -185,7 +187,9 @@
             background-blend-mode: multiply;
             text-align: left;
             color: #fff;
-            height: 99dvh;
+            height: 110dvh;
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+             mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
         
         .par_text{ 
@@ -334,6 +338,29 @@
                 </p></div>
         </div>
     </header>
+
+    <!-- The marquee or infinite scroller panel section -->
+    <section id="scroll" class="scroll">
+        <div class="is_header">
+            <div class="home-intro_label txt txt-20 txt-med" style="text-align: center;">Clients & Partners</div>
+            <h2 class="marq_title ">
+                <div class="m-lines" style="display: block; text-align: center; position: relative ; color: hsl(0, 0%, 16%);">A List of Our</div>
+                <div class="m-lines" style="display: block; text-align: center; position: relative; color: hsl(0, 0%, 16%);">Clients & Collaborators</div>
+            </h2> 
+        </div>
+        <!-- ===== TEXT SCROLLER ===== -->
+        <div class="scroller" data-speed="30s">
+            <div class="scroller_inner">
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Client logo</div>
+                <div class="tag">Partner logo</div>
+            </div>
+        </div>
+    </section>
     <!-- the first section -->
     <section class="scroll-reveal">
         <h1 class="section-title"><span>Lorem ipsum dolor sit amet</span></h1>
@@ -392,7 +419,8 @@
             </div>
             
         </div>
-    </section>
+    </section>   
+
     <!-- the second section -->
     <section class="solutions_sec">
         <div class="containerrr grid">
@@ -471,28 +499,7 @@
         </div>
     </section>
     
-    <!-- The marquee or infinite scroller panel section -->
-    <section id="scroll" class="scroll">
-        <div class="is_header">
-            <div class="home-intro_label txt txt-20 txt-med">Clients & Partners</div>
-            <h2 class="marq_title  ">
-                <div class="m-lines" style="display: block; text-align: center; position: relative ; color: hsl(0, 0%, 16%);">A List of Our</div>
-                <div class="m-lines" style="display: block; text-align: center; position: relative; color: hsl(0, 0%, 16%);">Clients & Collaborators</div>
-            </h2> 
-        </div>
-        <!-- ===== TEXT SCROLLER ===== -->
-        <div class="scroller" data-speed="30s">
-            <div class="scroller_inner">
-                <div class="tag">Client logo</div>
-                <div class="tag">Client logo</div>
-                <div class="tag">Client logo</div>
-                <div class="tag">Client logo</div>
-                <div class="tag">Client logo</div>
-                <div class="tag">Client logo</div>
-                <div class="tag">Partner logo</div>
-            </div>
-        </div>
-    </section>
+
     <section class="add_sec">
         <div class="grid_sec">
             <div class="feature">
@@ -527,41 +534,88 @@
             </div>
         </div>
     </section>
-    <section class ="sec_faq">
-        <div class="contrainerr grid">
-            <div class="home-intro_label txt txt-20 txt-med" style="color: #fff;">FAQ</div>
-            <h2 class="h3 faq_title">
-                <div class="g-lines" style="display: block; text-align: start; position: relative;">Frequently Asked</div>
-                <div class="g-lines" style="display: block; text-align: start; position: relative;">Questions</div>
-            </h2>
-            <div class="faq_grid">
-                <div class="faq_item">
-                    <h3>What is Notch?</h3>
-                    <p style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
-                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+    <section id="faq-container">
+        <div class="faq-grid">
+            <div class="faq_header">
+                <h2 class="faq_title">
+                    <div class="f-lines"
+                        style="display: block; text-align: start; position: relative ; color: hsl(0, 0%, 16%);">Quick
+                        answers to</div>
+                    <div class="f-lines"
+                        style="display: block; text-align: start; position: relative; color: hsl(0, 0%, 16%);">questions you
+                        <br>may have</div>
+                </h2>
+                <p class="faq_txt">
+                <div class="p-lines"
+                    style="display: block; text-align: start; position: relative ; color: hsl(0, 0%, 16%);"> Can't find what
+                    you're looking for?</div>
+                <div class="p-lines" style="display: block; text-align: start; position: relative; color: hsl(0, 0%, 16%);">
+                    Contact us here:</div>
+                </p>
+                <a class="txt-a" href="mailto:info@.com">
+                    info@cargokite.com
+                </a>
+    
+            </div>
+    
+            <div class="faq_body-sec">
+                <div class="faq-item active">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
                 </div>
-                <div class="faq_item">
-                    <h3>What services do you offer?</h3>
-                    <p style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
-                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+    
+                <div class="faq-item ">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
                 </div>
-                <div class="faq_item">
-                    <h3>How can I contact you?</h3>
-                    <p style="display: none;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
-                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
                 </div>
-                <div class="faq_item">
-                    <h3>Where are you located?</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, voluptatibus
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas consectetur 
-                        ipsum tenetur commodi unde, tempora asperiores neque optio, culpa  facilis!</p>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do you build the entire ship in-house?
+                        <span class="faq-icon">+</span>
+                    </button>
+    
+                    <div class="faq-answer">
+                        <p>
+                            Yes. We handle the design, engineering, and production process
+                            internally to ensure high-quality standards and innovation.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- The footer section -->
     <section class="footer">
@@ -651,6 +705,21 @@
                 split.timeScale(0.2).play(0);
             });
         });
+    </script>
+    <script>
+        const faqItems = document.querySelectorAll(".faq-item");
+        faqItems.forEach(item => {
+            const button = item.querySelector(".faq-question");
+             button.addEventListener("click", () => {
+                 faqItems.forEach(otherItem => {
+                    if(otherItem !== item){
+                        otherItem.classList.remove("active");
+                    }
+                });
+                
+                item.classList.toggle("active");
+            });
+         });
     </script>
     <script src="js/scrollers/inifinite.js"></script>
 

@@ -1,16 +1,4 @@
 
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  background:hsl(0, 0%, 100%);
-  font-family:sans-serif;
-}
-
 /* ===== SCROLLER BASE ===== */
 .scroller{
   overflow:hidden;
@@ -47,7 +35,7 @@ body{
 }
 
 .marq_title{
-    font-size: 3rem;
+    font-size: 2.3rem;
     font-weight: 600;
     line-height: 1.1;
     padding-bottom: 1.2em;
@@ -56,7 +44,6 @@ body{
 }
 
 .scroll{
-    padding-top: 1rem;
+    padding-top: 2.4rem;
     padding-bottom: 8rem;
 }
-
