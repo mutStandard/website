@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0e100f" />
+
+  <title>GSAP Scroll Wave Transition</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- GSAP core and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0e100f;
+      --text: #fffce1;
+      --orange: #ff8709;
+      --pink: #f7bdf8;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+      overflow-x: clip;
+      scroll-behavior: auto;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: clip;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    /* Scroll distance controlling the animation */
+    .scroll-space {
+      position: relative;
+      height: 300vh;
+      height: 300dvh;
+      pointer-events: none;
+    }
+
+    /* Fixed SVG overlay — now behind everything */
+    .wrapper {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .transition {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .path {
+      fill: url(#grad);
+      stroke: none;
+    }
+
+    /* Centered text */
+    .fixed {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 20;
+      transform: translate(-50%, -50%);
+      color: var(--text);
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      font-weight: 650;
+      letter-spacing: 0.12em;
+      text-align: center;
+      text-shadow: 0 4px 24px rgb(0 0 0 / 35%);
+      user-select: none;
+      pointer-events: none;
+      white-space: nowrap;
+      will-change: opacity;
+    }
+
+    .fixed.pulse {
+      animation: softPulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes softPulse {
+      0%, 100% {
+        opacity: 0.65;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Bottom scroll indicator */
+    .scroll-hint {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      transform: translateX(-50%);
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .scroll-hint.hidden {
+      opacity: 0;
+    }
+
+    .arrow {
+      width: 12px;
+      height: 12px;
+      border-right: 1.5px solid var(--text);
+      border-bottom: 1.5px solid var(--text);
+      transform: rotate(45deg);
+      animation: arrowBounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes arrowBounce {
+      0%, 100% {
+        transform: rotate(45deg) translate(0, 0);
+        opacity: 0.45;
+      }
+
+      50% {
+        transform: rotate(45deg) translate(4px, 4px);
+        opacity: 1;
+      }
+    }
+
+    /* Demo content — now forward and above the wave */
+    .page-content {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .content-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      height: 450px;
+      width: 200px;
+      border-radius: 16px;
+      position: relative;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+      overflow: hidden;
+      transition: transform 0.35s ease;
+      pointer-events: auto;
+    }
+
+    .card::before {
+      content: "";
+      position: relative;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 135, 9, 0.18), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(247, 189, 248, 0.22), transparent 60%);
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card .content {
+      position: relative;
+      z-index: 2;
+      width: 70%;
+      height: 60%;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(255, 135, 9, 0.85), rgba(247, 189, 248, 0.85));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0e100f;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    .card .content::after {
+      content: "Card";
+    }
+
+    /* Progress indicator — behind content, above wave */
+    .progress-track {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 5;
+      height: 2px;
+      background: rgb(255 255 255 / 8%);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: var(--orange);
+      transform-origin: left center;
+    }
+
+    @media (max-width: 600px) {
+      .scroll-hint {
+        bottom: 1.5rem;
+      }
+
+      .card {
+        height: 320px;
+        width: 160px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fixed.pulse,
+      .arrow {
+        animation: none;
+      }
+
+      .scroll-hint {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SVG wave overlay — behind everything -->
+  <div class="wrapper" aria-hidden="true">
+    <svg
+      class="transition"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient
+          id="grad"
+          x1="0"
+          y1="0"
+          x2="100"
+          y2="100"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="20%" stop-color="#ff8709" />
+          <stop offset="70%" stop-color="#f7bdf8" />
+        </linearGradient>
+      </defs>
+
+      <!-- The wave begins collapsed below the viewport -->
+      <path
+        class="path"
+        d="M 0 100 L 0 100 C 25 100 75 100 100 100 L 100 100 Z"
+      />
+    </svg>
+  </div>
+
+  <!-- Demo page content — forward, above the wave -->
+  <main class="page-content">
+    <!-- <section class="content-inner"> 
+      <div class="card">
+        <div class="content"></div>
+      </div>
+      <div class="card">
+        <div class="content"></div>
+      </div>
+      <div class="card">
+        <div class="content"></div>
+      </div>
+    </section>-->
+
+    
+    <section class="mainby">
+        <div class="main-main">
+            <h1>Create without limits.</h1>
+            <div class="txt_c">
+                <p>
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    
+                </p>
+                <p>
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                </p>
+            </div>
+
+        </div>
+    </section>
+  </main>
+
+  <!-- Scroll distance -->
+  <div class="scroll-space" aria-hidden="true"></div>
+
+  <!-- Scroll text -->
+  <p class="fixed pulse" id="clickHint"></p>
+
+  <div class="scroll-hint" id="scrollHint">
+    <span></span>
+    <span class="arrow"></span>
+  </div>
+
+  <!-- Progress indicator -->
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const path = document.querySelector(".path");
+      const hint = document.getElementById("clickHint");
+      const scrollHint = document.getElementById("scrollHint");
+      const progressBar = document.getElementById("progressBar");
+
+      if (!path || !hint || !scrollHint || !progressBar) {
+        return;
+      }
+
+      /*
+       * All three paths use the same SVG commands.
+       * This means the browser can interpolate the path geometry
+       * without the premium MorphSVGPlugin.
+       */
+
+      // State 1: collapsed at the bottom.
+      const HIDDEN =
+        "M 0 100 L 0 100 C 25 100 75 100 100 100 L 100 100 Z";
+
+      // State 2: curved wave moving up across the screen.
+      const WAVE =
+        "M 0 100 L 0 48 C 25 4 75 4 100 48 L 100 100 Z";
+
+      // State 3: entire viewport covered.
+      const COVERED =
+        "M 0 100 L 0 0 C 25 0 75 0 100 0 L 100 100 Z";
+
+      gsap.set(path, {
+        attr: { d: HIDDEN }
+      });
+
+      /*
+       * The timeline is controlled by ScrollTrigger.
+       * Scrubbing synchronizes the wave with the scrollbar.
+       */
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "none"
+        }
+      });
+
+      tl.to(path, {
+        attr: { d: WAVE },
+        duration: 1
+      });
+
+      tl.to(path, {
+        attr: { d: COVERED },
+        duration: 1
+      });
+
+      /*
+       * The spacer is 300vh tall.
+       * Scrolling from its top to its bottom drives the timeline.
+       */
+      ScrollTrigger.create({
+        trigger: ".scroll-space",
+        start: "top top",
+        end: "bottom bottom",
+        animation: tl,
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+
+        onUpdate(self) {
+          const progress = self.progress;
+
+          // Main label
+          if (progress >= 0.99) {
+            hint.textContent = "REVEALED";
+          } else if (progress <= 0.01) {
+            hint.textContent = "";
+          } else {
+            hint.textContent = "";
+          }
+
+          // Fade the main label as the wave advances.
+          const labelOpacity = gsap.utils.interpolate(
+            1,
+            0,
+            gsap.utils.clamp(0, 1, progress / 0.9)
+          );
+
+          gsap.set(hint, {
+            opacity: labelOpacity
+          });
+
+          // Hide the scroll prompt near the end.
+          scrollHint.classList.toggle("hidden", progress > 0.88);
+
+          // Update the thin progress bar.
+          gsap.set(progressBar, {
+            width: `${progress * 100}%`
+          });
+        },
+
+        onLeave() {
+          hint.textContent = "REVEALED";
+          gsap.set(hint, { opacity: 0 });
+          scrollHint.classList.add("hidden");
+        },
+
+        onEnterBack() {
+          scrollHint.classList.remove("hidden");
+        },
+
+        onLeaveBack() {
+          hint.textContent = "SCROLL";
+          gsap.set(hint, { opacity: 1 });
+          scrollHint.classList.remove("hidden");
+          gsap.set(progressBar, { width: "0%" });
+        }
+      });
+
+      // Recalculate measurements when viewport dimensions change.
+      window.addEventListener("load", () => {
+        ScrollTrigger.refresh();
+      });
+    })();
+  </script>
+</body>
+</html>
