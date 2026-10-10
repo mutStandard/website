@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Page Transition · Hero + Navbar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================
+         TRANSITION
+    ========================================== -->
+    <div class="transition">
+        <div class="transition-circle"></div>
+        <div class="transition-circle"></div>
+        <div class="transition-circle"></div>
+        <div class="transition-circle"></div>
+        <div class="transition-logo">
+            <img src="Screenshot_2026-10-01_230650-removebg-preview 1.svg" alt="Logo" style="height: 50px; max-width: 100%; display: block;">
+        </div>
+    </div>
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+    <nav class="navbar">
+        <a href="#" class="logo" data-transition>delishagroup</a>
+        <ul class="nav-links">
+            <li><a href="#" data-transition>Home</a></li>
+            <li><a href="#" data-transition>Work</a></li>
+            <li><a href="#" data-transition>About</a></li>
+            <li><a href="#" class="nav-cta" data-transition>Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- =========================================
+         HERO SECTION
+    ========================================== -->
+    <main class="hero">
+       
+            <!-- Decorative elements can be added here -->
+        
+            <!-- ============ CAROUSEL SLIDER ============ -->
+            <div class="carousel-container">
+                <div class="carousel" id="carousel">
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>Summer Collection</h2>
+                            <p>Get up to 50% off on summer essentials</p>
+                            <button class="slide-btn">
+                                <a href="about.html" class="page-link" data-transition>Go to About</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>Tech Gadgets</h2>
+                            <p>Latest tech products at unbeatable prices</p>
+                            <button class="slide-btn">
+                                <a href="about.html" class="page-link" data-transition>Go to About</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>Flash Sale</h2>
+                            <button class="slide-btn">
+                                <p>Limited time offers - Save Big Today</p> 
+                                <a href="about.html" class="page-link" data-transition> Go to About</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>New Arrivals</h2>
+                            <p>Check out the latest products in stock</p>
+                            <button class="slide-btn">
+                                <a href="about.html" class="page-link" data-transition>Go to About</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="slide-content">
+                            <h2>Member Exclusive</h2>
+                            <p>Special deals for loyal members</p>
+                            <button class="slide-btn">
+                                <a href="about.html" class="page-link" data-transition>Go to About</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        
+                <button class="carousel-nav carousel-prev" id="prevBtn">❮</button>
+                <button class="carousel-nav carousel-next" id="nextBtn">❯</button>
+        
+                <div class="carousel-controls" id="carouselControls"></div>
+        </section>
+    </main>
+
+    <section class="mainby">
+        <div class="main-main">
+            <h1>Create without limits.</h1>
+            <div class="txt_c">
+                <p><!--
+                    The left side content,should moving from center to left 
+                    when the scroll trigger is activated 
+                    -->
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    
+                </p>
+                <!---
+                 The image is set to scale from 0% to 50% and ease in,using scroll trigger.
+                 Works on all screen sizes, and the image is responsive and scales down on smaller screens.
+                 Work ones.
+                 --->
+                <img src="foto-dial-LEHNmIJ467k-unsplash.jpg" alt="drink" 
+                style="width: 50%; max-width: 50%; display: block; border-radius: 10px;">
+                <p><!--
+                    The left side content,should moving from center to right 
+                    when the scroll trigger is activated 
+                    -->
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                    Circular page transition with a clean hero and navigation.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="ad_intro">
+            <div class="img_content">
+                <img src="" alt="">
+                <p style="align-items: center;"><span style="color: orangered;"> CHAIRMAN & CEO</span><br>S. K. Rahul Nayak</p>
+            </div>
+            <article class="ad_intro_txt">
+                Our vision is to build a diverse and trusted brand portfolio,
+                grow strong partnerships, and create sustainable value
+                across every market we serve. We are committed to
+                quality, consistency and long-term growth, while
+                continuously expanding our portfolio and reaching new
+                markets.
+            </article>
+            
+        </div>
+    </section>
+
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
